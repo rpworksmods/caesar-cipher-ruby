@@ -7,23 +7,30 @@ def caesar_cipher(string, shift)
        
   cipher_array = string_array.reduce(Array.new(0)) do |cipher, letter|
 
-    alphabet_index = alphabet.find_index(letter) + shift
+    alphabet_index = alphabet.find_index(letter)
+    if alphabet_index == nil 
+      cipher.push(letter)
 
-    new_index = alphabet_index + shift
+      cipher
+    else
+      alphabet_index = alphabet.find_index(letter) + shift
 
-    #IF: the new letter's index is more than the length of the alphabet array, use index 0 + remaining iterations
-    if alphabet_index > alphabet.length
-      # Get the difference between index and length
-      new_index = diff(alphabet_index, alphabet.length)
+      new_index = alphabet_index + shift
+
+      #IF: the new letter's index is more than the length of the alphabet array, use index 0 + remaining iterations
+      if alphabet_index > alphabet.length
+        # Get the difference between index and length
+        new_index = diff(alphabet_index, alphabet.length)
+      end
+
+      #Get the new letter 
+      new_letter = alphabet[new_index]
+
+      #Add new letter to the cipher array
+      cipher.push(new_letter)
+
+      cipher
     end
-
-    #Get the new letter 
-    new_letter = alphabet[new_index]
-
-    #Add new letter to the cipher array
-    cipher.push(new_letter)
-
-    cipher
   end
 
   return cipher_array.join("")
@@ -33,4 +40,4 @@ def diff(a, b)
   (a - b).abs
 end
 
-puts caesar_cipher("Hello", 4)
+puts caesar_cipher("He!llo!", 4)
